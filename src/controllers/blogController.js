@@ -18,17 +18,46 @@ const addBlog = async(req,res)=>{
         res.json({message:'insertion failed!' , data:null});
     }
 };
+const findABlog = async(req,res)=>{
+    const {id} = req.params
+    const fetchedBlog = await blogServices.findABlogByID(id);
+    if(fetchedBlog){
+        res.json({message:"data fetched successfully",data:fetchedBlog})
+    }
+    else{
+        res.json({message:"failed to fetch data!",data:null});
+    }
+    
+};
+const updateBlog =async(req,res)=>{
+    const blogId = req.params.id;
+    const updatedData = req.body;
 
+    const updateblog = await blogServices.updateABlog(blogId, updatedData)
+    if (updateblog) {
+        res.json({message:'update successfully',data:updateblog})
+    }
+    else{
+        res.json({message:'updation failed!' , data:null});
+    }
+}
 
-// // const findABlog = async(req,res) =>{
-// //     console.log(rer.parms)
-
-
-// // }
-
+const deleteBlog =async(req,res)=>{
+    const blogId=req.params.id;
+    
+    const deletedblog = await blogServices.deleteBlogById(blogId);
+    if(deletedblog){
+        res.json({message:"successfully deleted",data:deletedblog});
+    }
+    else{
+        res.json({message:"failed to delete data",data:null});
+    }
+}
 module.exports={
      getAllBlog,
      addBlog,
-//     //findABlog
+     findABlog,
+     updateBlog,
+     deleteBlog
 
  }
